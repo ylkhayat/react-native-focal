@@ -1,13 +1,24 @@
-import React from 'react'
-import { View, ViewProps } from 'react-native'
-import { blurFocused } from './ref'
+import React, { useCallback } from 'react'
+import { View, TouchableWithoutFeedback, ViewProps } from 'react-native'
+import isFunction from 'lodash/isFunction'
+import { blur } from './ref'
 
-type Props = ViewProps & { children: React.FunctionComponentElement<any> }
+type Props = ViewProps & {
+  children: React.FunctionComponentElement<any>
+  onPress?: () => void
+}
 
-const Container = ({ children, ...props }: Props) => (
-  <View {...props} onTouchStart={blurFocused}>
-    {children}
-  </View>
-)
+const Container = ({ children, onPress, ...props }: Props) => {
+  const onContainerPress = useCallback(() => {
+    if (isFunction(onPress)) onPress()
+    blur()
+  }, [onPress])
+
+  return (
+    <TouchableWithoutFeedback onPress={onContainerPress}>
+      <View {...props}>{children}</View>
+    </TouchableWithoutFeedback>
+  )
+}
 
 export default Container

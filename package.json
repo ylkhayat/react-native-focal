@@ -4,7 +4,7 @@
   "description": "Made with create-react-library",
   "author": "yousseftarekkh",
   "license": "MIT",
-  "repository": "yousseftarekkh/react-native-focal",
+  "repository": "@yousseftarekkh/react-native-focal",
   "main": "dist/index.js",
   "engines": {
     "node": ">=14"
