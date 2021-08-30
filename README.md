@@ -2,10 +2,10 @@
 
 [![NPM](https://img.shields.io/npm/v/form.svg)](https://www.npmjs.com/package/yousseftarekkh/react-native-focal)
 
-Roses are red.\
-Violets are blue.\
-Inputs aint bluring.\
-But I know what to do. 🔥
+_Roses are red._\
+_Violets are blue._\
+_Inputs aint blurring._\
+_But I know what to do._
 
 After carefully monitoring the community's struggle with non blurring `TextInput`s. This package is a simple solution for anyone seeking quick `focus`ing & `blur`ring over their components. Let's dig into the docs, shall we?
 
@@ -99,35 +99,43 @@ const { node, onBlur } = getFocused()
 import { Container, Controller, blur } from 'react-native-focal'
 import { TextInput, Button } from 'react-native'
 
-const Screen = () => {
-  return (
-    <Container>
-      {/* TextInput handled by the default `onBlur` */}
-      <Controller>
-        <TextInput />
-      </Controller>
+const Screen = () => (
+  <Container>
+    {/* TextInput handled by the default `onBlur` */}
+    <Controller>
+      <TextInput />
+    </Controller>
 
-      {/* TextInput handled by the passed `onBlur` with a signal to not remove the node from the focus */}
-      <Controller
-        onBlur={(node) => {
-          node.clear()
-          return false
-        }}
-      >
-        <TextInput />
-      </Controller>
+    {/* TextInput handled by the passed `onBlur` with a signal to not remove the node from the focus */}
+    <Controller
+      onBlur={(node) => {
+        node.clear()
+        return false
+      }}
+    >
+      <TextInput />
+    </Controller>
 
-      {/* Button handles blur onPress internally*/}
-      <Controller isFocusable={false}>
-        <Button />
-      </Controller>
+    {/* Button handles blur onPress internally*/}
+    <Controller isFocusable={false}>
+      <Button />
+    </Controller>
 
-      {/* Button handles blur onPress externally */}
-      <Button onPress={blur} />
-    </Container>
-  )
-}
+    {/* Button handles blur onPress externally */}
+    <Button onPress={blur} />
+  </Container>
+)
 ```
+
+## 🌟 Encouragement
+
+Kindly stargaze ⭐ this repository if it helped you achieve anything good!
+
+## 👏 Contribute
+
+This package is free of charge for the only purpose to help the community with the related concerns. Thus, any helping hand is more than welcome to evolve the package if it is proven to be worth evolving.
+
+Check [CONTRIBUTING.md](CONTRIBUTING.md) for some contribution guidelines.
 
 ## License
 
