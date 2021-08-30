@@ -53,7 +53,7 @@ Once you wrap the component with this `Controller`, you can modify how this cont
 | `isFocusable` | boolean indicating whether the wrapped component behaves as a focusable component or not                                                                                           | `true`                   |
 | `onBlur`      | function responsible to shape the component blurring experience through a passed method expecting as input the node (component ref) itself to properly handle the blurring effect. | (node) => node?.blur?.() |
 
-#### 🥷 Samurai Tip
+#### ⚔️ Samurai Tip
 
 This is a generic component! Yes! sir! it! is!\
 Let me elaborate... The `Controller` allows you to provide a generic type of the component you're controlling, and this is mainly to offer better suggestions when using `onBlur` if your component is strictly typed. You can easily use this feature as follows.
