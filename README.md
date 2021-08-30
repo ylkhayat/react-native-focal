@@ -48,10 +48,10 @@ Once you wrap the component with this `Controller`, you can modify how this cont
 
 ##### Props
 
-| Name          | Description                                                                                                                                                                        | Default                  |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| `isFocusable` | boolean indicating whether the wrapped component behaves as a focusable component or not                                                                                           | `true`                   |
-| `onBlur`      | function responsible to shape the component blurring experience through a passed method expecting as input the node (component ref) itself to properly handle the blurring effect. | (node) => node?.blur?.() |
+| Name          | Description                                                                                                                                                                                                                                                                                                                                                         | Default                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `isFocusable` | boolean indicating whether the wrapped component behaves as a focusable component or not                                                                                                                                                                                                                                                                            | `true`                                     |
+| `onBlur`      | function responsible to shape the component blurring experience through a passed method expecting as input the node (component ref) itself to properly handle the blurring effect. Also expecting as a return a boolean to whether remove the component from the focus or not. `true` to remove the component, `false` to keep the component **logically** focused. | (node) => { node?.blur?.(); return true; } |
 
 #### ⚔️ Samurai Tip
 

@@ -21,7 +21,10 @@ type TProps<C> = ViewProps &
     children: any
   }
 
-const DEFAULT_BLUR_METHOD = (node: any) => node?.blur?.()
+const DEFAULT_BLUR_METHOD = (node: any) => {
+  node?.blur?.()
+  return true
+}
 
 function Controller<C>({
   children,
