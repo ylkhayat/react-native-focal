@@ -1,6 +1,6 @@
 # react-native-focal 👓
 
-[![NPM](https://img.shields.io/npm/v/form.svg)](https://www.npmjs.com/package/yousseftarekkh/react-native-focal)
+[![NPM](https://img.shields.io/npm/v/react-native-focal.svg)](https://www.npmjs.com/package/yousseftarekkh/react-native-focal)
 
 _Roses are red._\
 _Violets are blue._\
