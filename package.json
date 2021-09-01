@@ -1,10 +1,20 @@
 {
   "name": "react-native-focal",
   "version": "0.1.0",
-  "description": "Made with create-react-library",
+  "description": "Humble kit to professionally handle components triggering one's focus and blurring others.",
   "author": "yousseftarekkh",
   "license": "MIT",
-  "repository": "@yousseftarekkh/react-native-focal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yousseftarekkh/react-native-focal.git"
+  },
+  "keywords": [
+    "react-native",
+    "refs",
+    "focal",
+    "react-native-focal",
+    "blurring"
+  ],
   "main": "dist/index.js",
   "engines": {
     "node": ">=14"
