@@ -1,6 +1,7 @@
 # react-native-focal 👓
 
 [![NPM](https://img.shields.io/npm/v/react-native-focal.svg)](https://www.npmjs.com/package/react-native-focal)
+[![downloads](https://img.shields.io/npm/dm/react-native-focal.svg)](https://www.npmjs.com/package/react-native-focal)
 
 _Roses are red._\
 _Violets are blue._\
@@ -61,8 +62,9 @@ Let me elaborate... The `Controller` allows you to provide a generic type of the
 ```tsx
 <Controller<TextInput>
   onBlur={(node) => {
-    node.😍();
-    node.🥰();
+    node.clear();
+    node.blur();
+    return true;
   }}
 >
   <TextInput />
