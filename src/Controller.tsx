@@ -1,8 +1,8 @@
 import React, { useRef, useCallback } from 'react'
 
 import { View, ViewProps } from 'react-native'
-import { v4 as uuidv4 } from 'uuid'
-import set from 'lodash/set'
+import uniqueId from 'lodash.uniqueid'
+import set from 'lodash.set'
 import focuses, { blur } from './ref'
 
 type TControllerProps<C> = {
@@ -33,7 +33,7 @@ function Controller<C>({
   ...props
 }: TProps<C>) {
   const childRef = useRef<typeof children>(null)
-  const { current: privateUUID } = useRef(uuidv4())
+  const { current: privateUUID } = useRef(uniqueId())
 
   const refSetter = useCallback(
     (node: any) => {

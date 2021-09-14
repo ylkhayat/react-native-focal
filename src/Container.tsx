@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { View, TouchableWithoutFeedback, ViewProps } from 'react-native'
-import isFunction from 'lodash/isFunction'
+import isFunction from 'lodash.isfunction'
 import { blur } from './ref'
 
 type Props = ViewProps & {

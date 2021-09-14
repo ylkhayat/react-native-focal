@@ -1,7 +1,7 @@
 import { createRef } from 'react'
-import unset from 'lodash/unset'
-import get from 'lodash/get'
-import isFunction from 'lodash/isFunction'
+import unset from 'lodash.unset'
+import get from 'lodash.get'
+import isFunction from 'lodash.isfunction'
 
 type TComponent = {
   node: any
