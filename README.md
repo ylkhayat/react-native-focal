@@ -53,8 +53,11 @@ Once you wrap the component with this `Controller`, you can modify how this cont
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
 | `isFocusable` | boolean indicating whether the wrapped component behaves as a focusable component or not                                                                                                                                                                                                                                                                            | `true`                                     |
 | `onBlur`      | function responsible to shape the component blurring experience through a passed method expecting as input the node (component ref) itself to properly handle the blurring effect. Also expecting as a return a boolean to whether remove the component from the focus or not. `true` to remove the component, `false` to keep the component **logically** focused. | (node) => { node?.blur?.(); return true; } |
+| `onFocus`     | function responsible to add an extra functionality upon focusing on the controlled component                                                                                                                                                                                                                                                                        | `undefined`                                |
 
 #### ⚔️ Samurai Tip
+
+> _Requires a TypeScript configured project_
 
 This is a generic component! Yes! sir! it! is!\
 Let me elaborate... The `Controller` allows you to provide a generic type of the component you're controlling, and this is mainly to offer better suggestions when using `onBlur` if your component is strictly typed. You can easily use this feature as follows.
@@ -62,9 +65,9 @@ Let me elaborate... The `Controller` allows you to provide a generic type of the
 ```tsx
 <Controller<TextInput>
   onBlur={(node) => {
-    node.clear();
-    node.blur();
-    return true;
+    node.clear()
+    node.blur()
+    return true
   }}
 >
   <TextInput />
@@ -128,6 +131,10 @@ const Screen = () => (
   </Container>
 )
 ```
+
+## 🎮 Showcase
+
+You can follow this [link to snack.expo.dev](https://snack.expo.dev/@yousseftarek/react-native-focal) for a quick trial of the package. In the deployed snack, you will find different use cases of the `Controller` wrapping `TextInput`s and simulating how to shape the experience of each one.
 
 ## 🌟 Encouragement
 

@@ -4,6 +4,7 @@ import { View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
 import focuses, { blur } from './ref'
+import { isFunction } from 'lodash'
 
 type TControllerProps<C> = {
   /**
@@ -14,6 +15,10 @@ type TControllerProps<C> = {
    * Prop responsible for a customized handling of the `onBlur` action, expects a `boolean` as a return. `true` to remove the focus, `false` to keep in focus.
    */
   onBlur?: (node: C) => boolean
+  /**
+   * Prop responsible for a customized handling of the `onFocus` action.
+   */
+  onFocus?: (node?: C) => void
 }
 
 type TProps<C> = ViewProps &
@@ -30,6 +35,7 @@ function Controller<C>({
   children,
   isFocusable = true,
   onBlur = DEFAULT_BLUR_METHOD,
+  onFocus,
   ...props
 }: TProps<C>) {
   const childRef = useRef<typeof children>(null)
@@ -47,9 +53,10 @@ function Controller<C>({
   )
 
   const onPress = useCallback(() => {
+    if (isFunction(onFocus)) onFocus()
     if (isFocusable) set(focuses, ['current', 'focused'], privateUUID)
     else blur()
-  }, [isFocusable])
+  }, [isFocusable, onFocus])
 
   return (
     <View {...props} onTouchStart={onPress}>
