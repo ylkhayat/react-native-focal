@@ -4,7 +4,7 @@ import isFunction from 'lodash.isfunction'
 import { blur } from './ref'
 
 type Props = ViewProps & {
-  children: React.FunctionComponentElement<any>
+  children: React.ReactNode
   onPress?: () => void
 }
 
