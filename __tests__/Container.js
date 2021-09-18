@@ -3,7 +3,7 @@ import React from 'react'
 import { Pressable, View } from 'react-native'
 import Container from '../src/Container'
 
-describe('Container testing suite, handling different use cases of the Container behavior.', () => {
+describe("Container testing suite | handling different use cases of the Container's behavior.", () => {
   test('Container renders a single child', () => {
     const { getAllByTestId } = render(
       <Container>

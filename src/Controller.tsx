@@ -1,10 +1,10 @@
 import React, { useRef, useCallback } from 'react'
 
-import { View, ViewProps } from 'react-native'
+import { TouchableWithoutFeedback, View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
 import focuses, { blur } from './ref'
-import { isFunction } from 'lodash'
+import isFunction from 'lodash.isfunction'
 
 type TControllerProps<C> = {
   /**
@@ -39,12 +39,12 @@ function Controller<C>({
   ...props
 }: TProps<C>) {
   const childRef = useRef<typeof children>(null)
-  const { current: privateUUID } = useRef(uniqueId())
+  const { current: privateId } = useRef(uniqueId('ctrlr#'))
 
   const refSetter = useCallback(
     (node: any) => {
       set(childRef, 'current', node)
-      set(focuses, ['current', privateUUID], {
+      set(focuses, ['current', privateId], {
         node,
         onBlur
       })
@@ -54,14 +54,17 @@ function Controller<C>({
 
   const onPress = useCallback(() => {
     if (isFunction(onFocus)) onFocus()
-    if (isFocusable) set(focuses, ['current', 'focused'], privateUUID)
+    childRef?.current?.focus?.()
+    if (isFocusable) set(focuses, ['current', 'focused'], privateId)
     else blur()
   }, [isFocusable, onFocus])
 
   return (
-    <View {...props} onTouchStart={onPress}>
-      {React.cloneElement(children as any, { ref: refSetter })}
-    </View>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View {...props}>
+        {React.cloneElement(children as any, { ref: refSetter })}
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 
