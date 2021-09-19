@@ -43,15 +43,15 @@ const blur = () => {
  * Method responsible for retrieving the focused component value within the ref.
  */
 const getFocused = (): TComponent => {
-  const focusedComponentRef = get(focuses, ['current', 'focused'], {})
+  const focusedComponentRef = get(focuses, ['current', 'focused'], '')
   return get(focuses, ['current', focusedComponentRef])
 }
 
 /**
  * Method responsible for retrieving the focused component id within the ref.
  */
-const getFocusedId = (): TComponent => {
-  return get(focuses, ['current', 'focused'], {})
+const getFocusedId = (): string | null => {
+  return get(focuses, ['current', 'focused'], null)
 }
 
 /**
