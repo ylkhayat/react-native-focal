@@ -10,7 +10,7 @@ import {
   getLength,
   reset
 } from '../src/ref'
-import { tap } from './utils'
+import { tap } from '../src/utils'
 
 describe('Controller testing suite | handling different use cases of the Controller behavior.', () => {
   afterEach(() => {

@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react-native'
 
-const tap = (node) => {
+const tap = (node: any) => {
   fireEvent(node, 'onResponderRelease')
 }
 
