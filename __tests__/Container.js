@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react-native'
 import React from 'react'
 import { Pressable, View } from 'react-native'
 import Container from '../src/Container'
+import { tap } from './utils'
 
 describe("Container testing suite | handling different use cases of the Container's behavior.", () => {
   test('Container renders a single child', () => {
@@ -33,7 +34,7 @@ describe("Container testing suite | handling different use cases of the Containe
         <View />
       </Container>
     )
-    fireEvent.press(getByTestId('container'))
+    tap(getByTestId('container'))
     expect(onPress).toHaveBeenCalled()
   })
 
@@ -46,6 +47,7 @@ describe("Container testing suite | handling different use cases of the Containe
         <Pressable testID='pressable' onPress={onPressPressable} />
       </Container>
     )
+
     fireEvent.press(getByTestId('pressable'))
     expect(onPressContainer).toHaveBeenCalledTimes(0)
     expect(onPressPressable).toHaveBeenCalled()

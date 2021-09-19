@@ -66,6 +66,12 @@ const getFocused = (): TComponent => {
   return get(focuses, ['current', focusedComponentRef])
 }
 
+/**
+ * Method responsible for retrieving the focused component id within the ref.
+ */
+const getFocusedId = (): TComponent => {
+  return get(focuses, ['current', 'focused'], {})
+}
 const getLength = () => {
   return Object.keys((focuses.current as any) || {}).length
 }
@@ -75,4 +81,12 @@ const getByIndex = (index: number) => {
   return Object.values((focuses.current as any) || {})[index]
 }
 
-export { blur, reset, subscribe, getByIndex, getFocused, getLength }
+export {
+  blur,
+  reset,
+  subscribe,
+  getByIndex,
+  getFocused,
+  getFocusedId,
+  getLength
+}

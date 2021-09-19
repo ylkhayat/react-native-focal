@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 
-import { TouchableWithoutFeedback, View, ViewProps } from 'react-native'
+import { View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
 import focuses, { blur } from './ref'
@@ -26,7 +26,9 @@ type TProps<C> = ViewProps &
     children: any
   }
 
-const DEFAULT_BLUR_METHOD = (node: any) => {
+const _onStartShouldSetResponder = () => true
+
+const _onBlur = (node: any) => {
   node?.blur?.()
   return true
 }
@@ -34,7 +36,7 @@ const DEFAULT_BLUR_METHOD = (node: any) => {
 function Controller<C>({
   children,
   isFocusable = true,
-  onBlur = DEFAULT_BLUR_METHOD,
+  onBlur = _onBlur,
   onFocus,
   ...props
 }: TProps<C>) {
@@ -60,11 +62,13 @@ function Controller<C>({
   }, [isFocusable, onFocus])
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View {...props}>
-        {React.cloneElement(children as any, { ref: refSetter })}
-      </View>
-    </TouchableWithoutFeedback>
+    <View
+      {...props}
+      onStartShouldSetResponder={_onStartShouldSetResponder}
+      onResponderRelease={onPress}
+    >
+      {React.cloneElement(children as any, { ref: refSetter })}
+    </View>
   )
 }
 

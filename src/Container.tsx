@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { View, TouchableWithoutFeedback, ViewProps } from 'react-native'
+import { View, ViewProps, GestureResponderEvent } from 'react-native'
 import isFunction from 'lodash.isfunction'
 import { blur } from './ref'
 
@@ -8,16 +8,25 @@ type Props = ViewProps & {
   onPress?: () => void
 }
 
+const _onStartShouldSetResponder = () => true
+
 const Container = ({ children, onPress, ...props }: Props) => {
-  const onContainerPress = useCallback(() => {
-    if (isFunction(onPress)) onPress()
-    blur()
-  }, [onPress])
+  const onContainerPress = useCallback(
+    (_: GestureResponderEvent) => {
+      if (isFunction(onPress)) onPress()
+      blur()
+    },
+    [onPress]
+  )
 
   return (
-    <TouchableWithoutFeedback onPress={onContainerPress}>
-      <View {...props}>{children}</View>
-    </TouchableWithoutFeedback>
+    <View
+      {...props}
+      onStartShouldSetResponder={_onStartShouldSetResponder}
+      onResponderRelease={onContainerPress}
+    >
+      {children}
+    </View>
   )
 }
 

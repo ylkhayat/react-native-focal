@@ -1,14 +1,16 @@
-import { render, fireEvent, cleanup } from '@testing-library/react-native'
-import React, {
-  createRef,
-  forwardRef,
-  useImperativeHandle,
-  useRef
-} from 'react'
-import { TextInput, View } from 'react-native'
+import React, { forwardRef, useImperativeHandle } from 'react'
+import { render, cleanup } from '@testing-library/react-native'
+import { View } from 'react-native'
 import Container from '../src/Container'
 import Controller from '../src/Controller'
-import focuses, { getByIndex, getFocused, getLength, reset } from '../src/ref'
+import {
+  getByIndex,
+  getFocused,
+  getFocusedId,
+  getLength,
+  reset
+} from '../src/ref'
+import { tap } from './utils'
 
 describe('Controller testing suite | handling different use cases of the Controller behavior.', () => {
   afterEach(() => {
@@ -113,7 +115,7 @@ describe('Controller testing suite | handling different use cases of the Control
       )
 
       expect(getFocused()).toBeUndefined()
-      fireEvent.press(getByTestId('ctrlr'))
+      tap(getByTestId('ctrlr'))
       expect(onFocus).toHaveBeenCalled()
       expect(getFocused()).toBeDefined()
     })
@@ -128,12 +130,12 @@ describe('Controller testing suite | handling different use cases of the Control
       )
 
       expect(getFocused()).toBeUndefined()
-      fireEvent.press(getByTestId('ctrlr'))
+      tap(getByTestId('ctrlr'))
       expect(getFocused()).toBeUndefined()
     })
   })
-  const onCustomTextInputFocus = jest.fn(() => {})
 
+  const onCustomTextInputFocus = jest.fn(() => {})
   const CustomTextInput = forwardRef((_, ref) => {
     useImperativeHandle(
       ref,
@@ -146,18 +148,100 @@ describe('Controller testing suite | handling different use cases of the Control
   })
   test('Controlled TextInput components gets focused properly', () => {
     const onControllerFocus = jest.fn(() => {})
-    const textInputRef = createRef()
+    const onContainerPress = jest.fn(() => {})
     const { getByTestId } = render(
-      // <Container>
-      <Controller testID='ctrlr' onFocus={onControllerFocus}>
-        <TextInput ref={textInputRef} />
-      </Controller>
-      // </Container>
+      <Container onPress={onContainerPress}>
+        <Controller testID='ctrlr' onFocus={onControllerFocus}>
+          <CustomTextInput />
+        </Controller>
+      </Container>
     )
-    console.log(textInputRef?.current)
-    fireEvent.press(getByTestId('ctrlr'))
+    expect(getFocused()).toBeUndefined()
+    tap(getByTestId('ctrlr'))
+    expect(onContainerPress).toHaveBeenCalledTimes(0)
     expect(onControllerFocus).toHaveBeenCalled()
     expect(onCustomTextInputFocus).toHaveBeenCalled()
     expect(getFocused()).toBeDefined()
+  })
+
+  test('Focused Controller gets blurred properly once clicking on the Container when onBlur returns true', () => {
+    const { getByTestId } = render(
+      <Container testID='ctnr'>
+        <Controller testID='ctrlr'>
+          <View />
+        </Controller>
+      </Container>
+    )
+    tap(getByTestId('ctrlr'))
+    expect(getFocused()).toBeDefined()
+    tap(getByTestId('ctnr'))
+    expect(getFocused()).toBeUndefined()
+  })
+
+  test('Focused Controller does not get blurred once clicking on the Container when onBlur returns false', () => {
+    const { getByTestId } = render(
+      <Container testID='ctnr'>
+        <Controller
+          testID='ctrlr'
+          onBlur={() => {
+            return false
+          }}
+        >
+          <View />
+        </Controller>
+      </Container>
+    )
+    tap(getByTestId('ctrlr'))
+    expect(getFocused()).toBeDefined()
+    tap(getByTestId('ctnr'))
+    expect(getFocused()).toBeDefined()
+  })
+  test('Focused Controller gets blurred properly once clicking on another Controller when onBlur returns true', () => {
+    const { getByTestId } = render(
+      <Container>
+        <Controller
+          testID='ctrlr#1'
+          onBlur={() => {
+            return true
+          }}
+        >
+          <View />
+        </Controller>
+        <Controller testID='ctrlr#2'>
+          <View />
+        </Controller>
+      </Container>
+    )
+    tap(getByTestId('ctrlr#1'))
+    expect(getFocused()).toBeDefined()
+    const focused1 = getFocusedId()
+    tap(getByTestId('ctrlr#2'))
+    expect(getFocused()).toBeDefined()
+    const focused2 = getFocusedId()
+    expect(focused1).not.toEqual(focused2)
+  })
+  test('Focused Controller gets blurred properly once clicking on another Controller when onBlur returns false', () => {
+    const { getByTestId } = render(
+      <Container>
+        <Controller
+          testID='ctrlr#1'
+          onBlur={() => {
+            return false
+          }}
+        >
+          <View />
+        </Controller>
+        <Controller testID='ctrlr#2'>
+          <View />
+        </Controller>
+      </Container>
+    )
+    tap(getByTestId('ctrlr#1'))
+    expect(getFocused()).toBeDefined()
+    const focused1 = getFocusedId()
+    tap(getByTestId('ctrlr#2'))
+    expect(getFocused()).toBeDefined()
+    const focused2 = getFocusedId()
+    expect(focused1).not.toEqual(focused2)
   })
 })
