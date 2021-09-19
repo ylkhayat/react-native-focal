@@ -3,7 +3,6 @@ import unset from 'lodash.unset'
 import get from 'lodash.get'
 import set from 'lodash.set'
 import isFunction from 'lodash.isfunction'
-import uniqueId from 'lodash.uniqueid'
 
 type TComponent = {
   node: any
@@ -21,27 +20,9 @@ const focuses = createRef<
 >()
 export default focuses
 
-type TSubscribePayload = {
-  ref: React.MutableRefObject<any>
-  onBlur: any
-}
 /**
- * Function responsible for subscribing a component to the focuses.
+ * Method responsible for resetting the focal object ref to an empty object.
  */
-const subscribe = ({ ref, onBlur }: TSubscribePayload) => {
-  const id = uniqueId()
-  return {
-    subscriber: (node: any) => {
-      set(ref, 'current', node)
-      set(focuses, ['current', id], {
-        node,
-        onBlur
-      })
-    },
-    id
-  }
-}
-
 const reset = () => {
   set(focuses, ['current'], {})
 }
@@ -72,21 +53,20 @@ const getFocused = (): TComponent => {
 const getFocusedId = (): TComponent => {
   return get(focuses, ['current', 'focused'], {})
 }
+
+/**
+ * Method responsible for retrieving the number of actual nodes in the focal object.
+ */
 const getLength = () => {
   return Object.keys((focuses.current as any) || {}).length
 }
 
+/**
+ * Method responsible for retrieving a certain node within the focal object via index if valid.
+ */
 const getByIndex = (index: number) => {
   if (index >= getLength()) return null
   return Object.values((focuses.current as any) || {})[index]
 }
 
-export {
-  blur,
-  reset,
-  subscribe,
-  getByIndex,
-  getFocused,
-  getFocusedId,
-  getLength
-}
+export { blur, reset, getByIndex, getFocused, getFocusedId, getLength }

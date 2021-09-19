@@ -21,6 +21,7 @@ jobs:
           check-latest: true
           registry-url: https://registry.npmjs.org/
       - run: yarn install --frozen-lockfile
+      - run: yarn test
       - run: git config --global user.name "tacos"
       - run: git config --global user.email "yousseftarek@live.com"
       - run: yarn version --new-version ${{ github.event.release.tag_name }}

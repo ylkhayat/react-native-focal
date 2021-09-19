@@ -1,7 +1,7 @@
 {
   "name": "react-native-focal",
   "version": "0.1.1",
-  "description": "Humble kit to professionally handle components triggering one's focus and blurring others.",
+  "description": "Humble kit to professionally handle the focus/blur experience for controlled components.",
   "author": "yousseftarekkh",
   "license": "MIT",
   "repository": {

@@ -83,9 +83,27 @@ Function responsible for getting the focused component upon execution and if any
 ```ts
 import { blur } from 'react-native-focal'
 
-const onPress = () => {
-  blur()
-}
+blur()
+```
+
+#### `reset`
+
+Function responsible for retrieving the number of actual nodes in the focal object.
+
+```ts
+import { reset } from 'react-native-focal'
+
+reset()
+```
+
+#### `getByIndex`
+
+Function responsible for retrieving a certain node within the focal object via `index` if valid.
+
+```ts
+import { getByIndex } from 'react-native-focal'
+
+const { node, onBlur } = getByIndex(1)
 ```
 
 #### `getFocused`
@@ -98,6 +116,26 @@ import { getFocused } from 'react-native-focal'
 const { node, onBlur } = getFocused()
 ```
 
+#### `getFocusedId`
+
+Function responsible for getting the focused component's id.
+
+```ts
+import { getFocusedId } from 'react-native-focal'
+
+const privateId = getFocusedId()
+```
+
+#### `getLength`
+
+Function responsible for retrieving the number of actual nodes in the focal object.
+
+```ts
+import { getLength } from 'react-native-focal'
+
+const size = getLength()
+```
+
 ### Example
 
 ```tsx
@@ -105,7 +143,11 @@ import { Container, Controller, blur } from 'react-native-focal'
 import { TextInput, Button } from 'react-native'
 
 const Screen = () => (
-  <Container>
+  <Container
+    onPress={() => {
+      Alert.alert('Pressed Outside')
+    }}
+  >
     {/* TextInput handled by the default `onBlur` */}
     <Controller>
       <TextInput />
@@ -113,6 +155,9 @@ const Screen = () => (
 
     {/* TextInput handled by the passed `onBlur` with a signal to not remove the node from the focus */}
     <Controller
+      onFocus={() => {
+        Alert.alert('Second Input Focused')
+      }}
       onBlur={(node) => {
         node.clear()
         return false
@@ -121,7 +166,7 @@ const Screen = () => (
       <TextInput />
     </Controller>
 
-    {/* Button handles blur onPress internally*/}
+    {/* Button handles blur onPress internally */}
     <Controller isFocusable={false}>
       <Button />
     </Controller>
