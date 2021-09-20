@@ -22,7 +22,7 @@ const Container = ({ children, onPress, ...props }: Props) => {
   return (
     <View
       {...props}
-      onStartShouldSetResponder={_onStartShouldSetResponder}
+      onStartShouldSetResponderCapture={_onStartShouldSetResponder}
       onResponderRelease={onContainerPress}
     >
       {children}

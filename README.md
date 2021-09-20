@@ -78,12 +78,18 @@ Let me elaborate... The `Controller` allows you to provide a generic type of the
 
 #### `blur`
 
+`@param force` `boolean` responsible whether to force the removal of the focused ref logically.
+
 Function responsible for getting the focused component upon execution and if any tries to `blur` it. Keep in mind it's not necessarily blur the component if the Controller's `onBlur` is set to something different. Calling this method will execute whatever `onBlur` holds for the controlled component.
 
 ```ts
 import { blur } from 'react-native-focal'
 
+/* Default handling */
 blur()
+
+/* Strictly denotes to remove the focused if any */
+blur(true)
 ```
 
 #### `reset`
