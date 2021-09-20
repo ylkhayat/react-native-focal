@@ -10,7 +10,7 @@ import {
   getLength,
   reset
 } from '../src/ref'
-import { tap } from '../src/utils'
+import { events } from '../src/utils'
 
 describe('Controller testing suite | handling different use cases of the Controller behavior.', () => {
   afterEach(() => {
@@ -20,17 +20,17 @@ describe('Controller testing suite | handling different use cases of the Control
 
   describe('Rendering Related', () => {
     test('Container renders a single controller child', () => {
-      const { getAllByTestId } = render(
+      const { getByTestId } = render(
         <Container>
           <Controller isFocusable={false}>
             <View testID='child' />
           </Controller>
         </Container>
       )
-      expect(getAllByTestId('child')).toBeDefined()
+      expect(getByTestId('child')).toBeDefined()
     })
     test('Container renders multiple controllers', () => {
-      const { getAllByTestId } = render(
+      const { getByTestId } = render(
         <Container>
           <Controller isFocusable={false}>
             <View testID='child#1' />
@@ -40,8 +40,50 @@ describe('Controller testing suite | handling different use cases of the Control
           </Controller>
         </Container>
       )
-      expect(getAllByTestId('child#1')).toBeDefined()
-      expect(getAllByTestId('child#2')).toBeDefined()
+      expect(getByTestId('child#1')).toBeDefined()
+      expect(getByTestId('child#2')).toBeDefined()
+    })
+  })
+
+  describe('Handling Touches', () => {
+    test("Controller presses does not trigger Container's", () => {
+      const onContainerPress = jest.fn(() => {})
+      const onControllerPress = jest.fn(() => {})
+
+      const { getByTestId } = render(
+        <Container testID='cntr#1' onPress={onContainerPress}>
+          <Controller
+            isFocusable={false}
+            testID='ctrlr#1'
+            onPress={onControllerPress}
+          >
+            <View />
+          </Controller>
+        </Container>
+      )
+      events.tap(getByTestId('ctrlr#1'))
+      expect(onControllerPress).toHaveBeenCalled()
+      expect(onContainerPress).toHaveBeenCalledTimes(0)
+    })
+
+    test("Container presses does not trigger Controller's", () => {
+      const onContainerPress = jest.fn(() => {})
+      const onControllerPress = jest.fn(() => {})
+
+      const { getByTestId } = render(
+        <Container testID='cntr#1' onPress={onContainerPress}>
+          <Controller
+            isFocusable={false}
+            testID='ctrlr#1'
+            onPress={onControllerPress}
+          >
+            <View />
+          </Controller>
+        </Container>
+      )
+      events.tap(getByTestId('cntr#1'))
+      expect(onContainerPress).toHaveBeenCalled()
+      expect(onControllerPress).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -115,7 +157,7 @@ describe('Controller testing suite | handling different use cases of the Control
       )
 
       expect(getFocused()).toBeUndefined()
-      tap(getByTestId('ctrlr'))
+      events.tap(getByTestId('ctrlr'))
       expect(onFocus).toHaveBeenCalled()
       expect(getFocused()).toBeDefined()
     })
@@ -130,7 +172,7 @@ describe('Controller testing suite | handling different use cases of the Control
       )
 
       expect(getFocused()).toBeUndefined()
-      tap(getByTestId('ctrlr'))
+      events.tap(getByTestId('ctrlr'))
       expect(getFocused()).toBeUndefined()
     })
   })
@@ -157,7 +199,7 @@ describe('Controller testing suite | handling different use cases of the Control
       </Container>
     )
     expect(getFocused()).toBeUndefined()
-    tap(getByTestId('ctrlr'))
+    events.tap(getByTestId('ctrlr'))
     expect(onContainerPress).toHaveBeenCalledTimes(0)
     expect(onControllerFocus).toHaveBeenCalled()
     expect(onCustomTextInputFocus).toHaveBeenCalled()
@@ -172,9 +214,9 @@ describe('Controller testing suite | handling different use cases of the Control
         </Controller>
       </Container>
     )
-    tap(getByTestId('ctrlr'))
+    events.tap(getByTestId('ctrlr'))
     expect(getFocused()).toBeDefined()
-    tap(getByTestId('ctnr'))
+    events.tap(getByTestId('ctnr'))
     expect(getFocused()).toBeUndefined()
   })
 
@@ -191,9 +233,9 @@ describe('Controller testing suite | handling different use cases of the Control
         </Controller>
       </Container>
     )
-    tap(getByTestId('ctrlr'))
+    events.tap(getByTestId('ctrlr'))
     expect(getFocused()).toBeDefined()
-    tap(getByTestId('ctnr'))
+    events.tap(getByTestId('ctnr'))
     expect(getFocused()).toBeDefined()
   })
   test('Focused Controller gets blurred properly once clicking on another Controller when onBlur returns true', () => {
@@ -212,10 +254,10 @@ describe('Controller testing suite | handling different use cases of the Control
         </Controller>
       </Container>
     )
-    tap(getByTestId('ctrlr#1'))
+    events.tap(getByTestId('ctrlr#1'))
     expect(getFocused()).toBeDefined()
     const focused1 = getFocusedId()
-    tap(getByTestId('ctrlr#2'))
+    events.tap(getByTestId('ctrlr#2'))
     expect(getFocused()).toBeDefined()
     const focused2 = getFocusedId()
     expect(focused1).not.toEqual(focused2)
@@ -236,10 +278,10 @@ describe('Controller testing suite | handling different use cases of the Control
         </Controller>
       </Container>
     )
-    tap(getByTestId('ctrlr#1'))
+    events.tap(getByTestId('ctrlr#1'))
     expect(getFocused()).toBeDefined()
     const focused1 = getFocusedId()
-    tap(getByTestId('ctrlr#2'))
+    events.tap(getByTestId('ctrlr#2'))
     expect(getFocused()).toBeDefined()
     const focused2 = getFocusedId()
     expect(focused1).not.toEqual(focused2)

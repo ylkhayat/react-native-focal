@@ -8,8 +8,6 @@ type Props = ViewProps & {
   onPress?: () => void
 }
 
-const _onStartShouldSetResponder = () => true
-
 const Container = ({ children, onPress, ...props }: Props) => {
   const onContainerPress = useCallback(
     (_: GestureResponderEvent) => {
@@ -20,11 +18,7 @@ const Container = ({ children, onPress, ...props }: Props) => {
   )
 
   return (
-    <View
-      {...props}
-      onStartShouldSetResponder={_onStartShouldSetResponder}
-      onResponderRelease={onContainerPress}
-    >
+    <View {...props} onResponderRelease={onContainerPress}>
       {children}
     </View>
   )

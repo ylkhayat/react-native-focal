@@ -64,7 +64,7 @@ function Controller<C>({
   return (
     <View
       {...props}
-      onStartShouldSetResponderCapture={_onStartShouldSetResponderCapture}
+      onStartShouldSetResponder={_onStartShouldSetResponderCapture}
       onResponderRelease={onPress}
     >
       {React.cloneElement(children as any, { ref: refSetter })}
