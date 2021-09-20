@@ -1,6 +1,6 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useMemo } from 'react'
 
-import { View, ViewProps } from 'react-native'
+import { Platform, View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
 import focuses, { blur } from './ref'
@@ -61,11 +61,20 @@ function Controller<C>({
     if (isFunction(onFocus)) onFocus()
   }, [isFocusable, onFocus])
 
+  const responderHandler = useMemo(
+    () =>
+      Platform.select({
+        default: { onTouchStart: onPress },
+        web: { onResponderRelease: onPress }
+      }),
+    [onPress]
+  )
+
   return (
     <View
       {...props}
       onStartShouldSetResponder={_onStartShouldSetResponderCapture}
-      onResponderRelease={onPress}
+      {...responderHandler}
     >
       {React.cloneElement(children as any, { ref: refSetter })}
     </View>

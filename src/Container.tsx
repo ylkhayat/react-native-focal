@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { View, ViewProps, GestureResponderEvent } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
+import { View, ViewProps, GestureResponderEvent, Platform } from 'react-native'
 import isFunction from 'lodash.isfunction'
 import { blur } from './ref'
 
@@ -11,14 +11,22 @@ type Props = ViewProps & {
 const Container = ({ children, onPress, ...props }: Props) => {
   const onContainerPress = useCallback(
     (_: GestureResponderEvent) => {
-      if (isFunction(onPress)) onPress()
       blur()
+      if (isFunction(onPress)) onPress()
     },
     [onPress]
   )
 
+  const responderHandler = useMemo(
+    () =>
+      Platform.select({
+        default: { onTouchStart: onContainerPress },
+        web: { onResponderRelease: onContainerPress }
+      }),
+    [onContainerPress]
+  )
   return (
-    <View {...props} onResponderRelease={onContainerPress}>
+    <View {...props} {...responderHandler}>
       {children}
     </View>
   )

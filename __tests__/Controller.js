@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react'
 import { render, cleanup } from '@testing-library/react-native'
-import { View } from 'react-native'
+import { TextInput, View } from 'react-native'
 import Container from '../src/Container'
 import Controller from '../src/Controller'
 import {
@@ -45,7 +45,7 @@ describe('Controller testing suite | handling different use cases of the Control
     })
   })
 
-  describe('Handling Touches', () => {
+  describe('Handling Presses', () => {
     test("Controller presses does not trigger Container's", () => {
       const onContainerPress = jest.fn(() => {})
       const onControllerPress = jest.fn(() => {})
@@ -57,7 +57,7 @@ describe('Controller testing suite | handling different use cases of the Control
             testID='ctrlr#1'
             onPress={onControllerPress}
           >
-            <View />
+            <TextInput />
           </Controller>
         </Container>
       )
@@ -84,6 +84,43 @@ describe('Controller testing suite | handling different use cases of the Control
       events.tap(getByTestId('cntr#1'))
       expect(onContainerPress).toHaveBeenCalled()
       expect(onControllerPress).toHaveBeenCalledTimes(0)
+    })
+
+    test('Controller press followed by Container press', () => {
+      const onContainerPress = jest.fn(() => {})
+      const onControllerPress = jest.fn(() => {})
+
+      const { getByTestId } = render(
+        <Container testID='cntr#1' onPress={onContainerPress}>
+          <Controller testID='ctrlr#1' onPress={onControllerPress}>
+            <View />
+          </Controller>
+        </Container>
+      )
+      events.tap(getByTestId('ctrlr#1'))
+      expect(onControllerPress).toHaveBeenCalled()
+      expect(onContainerPress).toHaveBeenCalledTimes(0)
+
+      events.tap(getByTestId('cntr#1'))
+      expect(onContainerPress).toHaveBeenCalled()
+    })
+    test('Container press followed by Controller press', () => {
+      const onContainerPress = jest.fn(() => {})
+      const onControllerPress = jest.fn(() => {})
+
+      const { getByTestId } = render(
+        <Container testID='cntr#1' onPress={onContainerPress}>
+          <Controller testID='ctrlr#1' onPress={onControllerPress}>
+            <View />
+          </Controller>
+        </Container>
+      )
+      events.tap(getByTestId('cntr#1'))
+      expect(onContainerPress).toHaveBeenCalled()
+      expect(onControllerPress).toHaveBeenCalledTimes(0)
+
+      events.tap(getByTestId('ctrlr#1'))
+      expect(onControllerPress).toHaveBeenCalled()
     })
   })
 
@@ -159,6 +196,9 @@ describe('Controller testing suite | handling different use cases of the Control
       expect(getFocused()).toBeUndefined()
       events.tap(getByTestId('ctrlr'))
       expect(onFocus).toHaveBeenCalled()
+      expect(getFocusedId()).not.toBeNull()
+      expect(getFocused()).not.toBeNull()
+      expect(getFocusedId()).toBeDefined()
       expect(getFocused()).toBeDefined()
     })
 
