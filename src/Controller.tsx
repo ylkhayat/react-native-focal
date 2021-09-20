@@ -55,10 +55,10 @@ function Controller<C>({
   )
 
   const onPress = useCallback(() => {
-    if (isFunction(onFocus)) onFocus()
     childRef?.current?.focus?.()
     if (isFocusable) set(focuses, ['current', 'focused'], privateId)
     else blur()
+    if (isFunction(onFocus)) onFocus()
   }, [isFocusable, onFocus])
 
   return (
