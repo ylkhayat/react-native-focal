@@ -31,7 +31,7 @@ const reset = () => {
  * Gracefully `blur` the focused node via the `onBlur` method specified in the `Controller` props if it can be `blur`red.
  * @param force {boolean} flag to indicate whether to force removing the focused component logically or not.
  */
-const blur = (force: boolean) => {
+const blur = (force?: boolean) => {
   const focusedComponent = getFocused()
   if (!focusedComponent) return
   const { node, onBlur } = focusedComponent
