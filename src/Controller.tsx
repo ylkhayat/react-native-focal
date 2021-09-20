@@ -26,7 +26,7 @@ type TProps<C> = ViewProps &
     children: any
   }
 
-const _onStartShouldSetResponder = () => true
+const _onStartShouldSetResponderCapture = () => true
 
 const _onBlur = (node: any) => {
   node?.blur?.()
@@ -64,7 +64,7 @@ function Controller<C>({
   return (
     <View
       {...props}
-      onStartShouldSetResponder={_onStartShouldSetResponder}
+      onStartShouldSetResponderCapture={_onStartShouldSetResponderCapture}
       onResponderRelease={onPress}
     >
       {React.cloneElement(children as any, { ref: refSetter })}
