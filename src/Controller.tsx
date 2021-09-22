@@ -73,7 +73,6 @@ function Controller<C>({
 
   useEffect(() => {
     return () => {
-      console.log('unmounting', privateId)
       unsubscribeHandler(privateId)
     }
   }, [])
