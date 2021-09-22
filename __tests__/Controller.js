@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react'
-import { render, cleanup } from '@testing-library/react-native'
+import { render, cleanup, waitFor } from '@testing-library/react-native'
 import { TextInput, View } from 'react-native'
 import Container from '../src/Container'
 import Controller from '../src/Controller'
@@ -8,14 +8,16 @@ import {
   getFocused,
   getFocusedId,
   getLength,
-  reset
+  resetFocuses,
+  resetHandlers
 } from '../src/ref'
 import { events } from '../src/utils'
 
 describe('Controller testing suite | handling different use cases of the Controller behavior.', () => {
   afterEach(() => {
     cleanup()
-    reset()
+    resetFocuses()
+    resetHandlers()
   })
 
   describe('Rendering Related', () => {
@@ -40,6 +42,7 @@ describe('Controller testing suite | handling different use cases of the Control
           </Controller>
         </Container>
       )
+
       expect(getByTestId('child#1')).toBeDefined()
       expect(getByTestId('child#2')).toBeDefined()
     })
@@ -143,7 +146,7 @@ describe('Controller testing suite | handling different use cases of the Control
       expect(getByIndex(1)).toHaveProperty('onBlur')
     })
   })
-  test('Each controller properly handles its unmounting functionality', () => {
+  test('Each controller properly handles its unmounting functionality', async () => {
     const { unmount } = render(
       <Container>
         <Controller isFocusable={false}>
@@ -154,10 +157,12 @@ describe('Controller testing suite | handling different use cases of the Control
         </Controller>
       </Container>
     )
+
     expect(getLength()).toBe(2)
     expect(getByIndex(0).node).toBeDefined()
     expect(getByIndex(1).node).toBeDefined()
-    unmount()
+    await waitFor(() => unmount())
+
     expect(getByIndex(0).node).toBeNull()
     expect(getByIndex(1).node).toBeNull()
   })

@@ -97,14 +97,14 @@ blur()
 blur(true)
 ```
 
-#### `reset`
+#### `resetFocuses`
 
 Function responsible for retrieving the number of actual nodes in the focal object.
 
 ```ts
-import { reset } from 'react-native-focal'
+import { resetFocuses } from 'react-native-focal'
 
-reset()
+resetFocuses()
 ```
 
 #### `getByIndex`

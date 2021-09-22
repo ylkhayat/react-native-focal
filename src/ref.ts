@@ -18,12 +18,11 @@ const focuses = createRef<
     focused?: string
   }
 >()
-export default focuses
 
 /**
  * Method responsible for resetting the focal object ref to an empty object.
  */
-const reset = () => {
+const resetFocuses = () => {
   set(focuses, ['current'], {})
 }
 
@@ -70,4 +69,50 @@ const getByIndex = (index: number) => {
   return Object.values((focuses.current as any) || {})[index]
 }
 
-export { blur, reset, getByIndex, getFocused, getFocusedId, getLength }
+/**
+ * Ref containing the list of all the nodes within all the providers.
+ */
+const handlers = createRef<{ [key in string]: React.Ref<unknown> }>()
+
+/**
+ * Method responsible for subscribing the handler within the handlers ref object.
+ */
+const subscribeHandler = (id: string, ref: any) => {
+  set(handlers, ['current', id], ref)
+}
+
+/**
+ * Method responsible for unsubscribing the handler from the handlers ref object.
+ */
+const unsubscribeHandler = (id: string) => {
+  unset(handlers, ['current', id])
+}
+
+/**
+ * Method responsible for resetting the focal object ref to an empty object.
+ */
+const resetHandlers = () => {
+  set(handlers, 'current', {})
+}
+
+/**
+ * Method responsible for retrieving the handlers list.
+ */
+const getHandlers = () => {
+  return Object.values(handlers.current || {}) || []
+}
+
+export {
+  focuses,
+  blur,
+  resetFocuses,
+  getByIndex,
+  getFocused,
+  getFocusedId,
+  getLength,
+  handlers,
+  subscribeHandler,
+  unsubscribeHandler,
+  resetHandlers,
+  getHandlers
+}

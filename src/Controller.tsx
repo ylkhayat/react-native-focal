@@ -1,15 +1,14 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 
 import { View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
-import focuses, { blur } from './ref'
+import { focuses, subscribeHandler, unsubscribeHandler, blur } from './ref'
 import isFunction from 'lodash.isfunction'
 import {
   TapGestureHandler,
   HandlerStateChangeEvent
 } from 'react-native-gesture-handler'
-import { useHandlersContext } from 'useHandlers'
 
 type TControllerProps<C> = {
   /**
@@ -46,7 +45,6 @@ function Controller<C>({
   const childRef = useRef<typeof children>(null)
   const tapRef = useRef(null)
 
-  const { subscribeNode } = useHandlersContext()
   const { current: privateId } = useRef(uniqueId('ctrlr#'))
   const componentRefSetter = useCallback(
     (node: any) => {
@@ -58,13 +56,10 @@ function Controller<C>({
     },
     [onBlur]
   )
-  const tapRefSetter = useCallback(
-    (node: any) => {
-      set(tapRef, 'current', node)
-      subscribeNode(tapRef)
-    },
-    [subscribeNode]
-  )
+  const tapRefSetter = useCallback((node: any) => {
+    set(tapRef, 'current', node)
+    subscribeHandler(privateId, tapRef)
+  }, [])
 
   const onPress = useCallback(
     (_: HandlerStateChangeEvent<Record<string, unknown>>) => {
@@ -75,6 +70,13 @@ function Controller<C>({
     },
     [isFocusable, onFocus]
   )
+
+  useEffect(() => {
+    return () => {
+      console.log('unmounting', privateId)
+      unsubscribeHandler(privateId)
+    }
+  }, [])
 
   return (
     <TapGestureHandler ref={tapRefSetter} onActivated={onPress}>
