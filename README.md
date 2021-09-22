@@ -17,16 +17,21 @@ React Native's `TextInput` is a wonderful component, yet it sometimes triggers s
 ## 🛫 Installation
 
 Let's get down to business first, use your intimate npm package manager.
+Do not forget the peer dependencies.
 
 ```bash
-$ yarn add react-native-focal
+$ yarn add react-native-focal react-native-gesture-handler
 ```
 
 or
 
 ```bash
-$ npm install --save react-native-focal
+$ npm install --save react-native-focal react-native-gesture-handler
 ```
+
+### Linking the peer dependency
+
+Do not forget to properly link the `react-native-gesture-handler` according to your project's config. Here's the link to the [Get Started](https://docs.swmansion.com/react-native-gesture-handler/docs/#installation).
 
 ## 🗞️ API
 
