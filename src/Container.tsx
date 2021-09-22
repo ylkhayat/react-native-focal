@@ -6,6 +6,7 @@ import {
   TapGestureHandler,
   HandlerStateChangeEvent
 } from 'react-native-gesture-handler'
+import { HandlerContext, useHandlers } from 'context'
 
 type Props = ViewProps & {
   children: React.ReactNode
@@ -13,6 +14,8 @@ type Props = ViewProps & {
 }
 
 const Container = ({ children, onPress, ...props }: Props) => {
+  const handlersUtils = useHandlers()
+  const { refs } = handlersUtils
   const onContainerPress = useCallback(
     (_: HandlerStateChangeEvent<Record<string, unknown>>) => {
       blur()
@@ -22,9 +25,11 @@ const Container = ({ children, onPress, ...props }: Props) => {
   )
 
   return (
-    <TapGestureHandler onActivated={onContainerPress}>
-      <View {...props}>{children}</View>
-    </TapGestureHandler>
+    <HandlerContext.Provider value={handlersUtils}>
+      <TapGestureHandler waitFor={refs} onActivated={onContainerPress}>
+        <View {...props}>{children}</View>
+      </TapGestureHandler>
+    </HandlerContext.Provider>
   )
 }
 

@@ -9,6 +9,7 @@ import {
   TapGestureHandler,
   HandlerStateChangeEvent
 } from 'react-native-gesture-handler'
+import { useHandlersContext } from 'useHandlers'
 
 type TControllerProps<C> = {
   /**
@@ -43,9 +44,11 @@ function Controller<C>({
   ...props
 }: TProps<C>) {
   const childRef = useRef<typeof children>(null)
-  const { current: privateId } = useRef(uniqueId('ctrlr#'))
+  const tapRef = useRef(null)
 
-  const refSetter = useCallback(
+  const { subscribeNode } = useHandlersContext()
+  const { current: privateId } = useRef(uniqueId('ctrlr#'))
+  const componentRefSetter = useCallback(
     (node: any) => {
       set(childRef, 'current', node)
       set(focuses, ['current', privateId], {
@@ -54,6 +57,13 @@ function Controller<C>({
       })
     },
     [onBlur]
+  )
+  const tapRefSetter = useCallback(
+    (node: any) => {
+      set(tapRef, 'current', node)
+      subscribeNode(tapRef)
+    },
+    [subscribeNode]
   )
 
   const onPress = useCallback(
@@ -67,9 +77,9 @@ function Controller<C>({
   )
 
   return (
-    <TapGestureHandler onActivated={onPress}>
+    <TapGestureHandler ref={tapRefSetter} onActivated={onPress}>
       <View {...props}>
-        {React.cloneElement(children as any, { ref: refSetter })}
+        {React.cloneElement(children as any, { ref: componentRefSetter })}
       </View>
     </TapGestureHandler>
   )
