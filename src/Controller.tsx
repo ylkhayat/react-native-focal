@@ -1,10 +1,14 @@
-import React, { useRef, useCallback, useMemo } from 'react'
+import React, { useRef, useCallback } from 'react'
 
-import { Platform, View, ViewProps } from 'react-native'
+import { View, ViewProps } from 'react-native'
 import uniqueId from 'lodash.uniqueid'
 import set from 'lodash.set'
 import focuses, { blur } from './ref'
 import isFunction from 'lodash.isfunction'
+import {
+  TapGestureHandler,
+  HandlerStateChangeEvent
+} from 'react-native-gesture-handler'
 
 type TControllerProps<C> = {
   /**
@@ -25,8 +29,6 @@ type TProps<C> = ViewProps &
   TControllerProps<C> & {
     children: any
   }
-
-const _onStartShouldSetResponderCapture = () => true
 
 const _onBlur = (node: any) => {
   node?.blur?.()
@@ -54,30 +56,22 @@ function Controller<C>({
     [onBlur]
   )
 
-  const onPress = useCallback(() => {
-    childRef?.current?.focus?.()
-    if (isFocusable) set(focuses, ['current', 'focused'], privateId)
-    else blur()
-    if (isFunction(onFocus)) onFocus()
-  }, [isFocusable, onFocus])
-
-  const responderHandler = useMemo(
-    () =>
-      Platform.select({
-        default: { onTouchStart: onPress },
-        web: { onResponderRelease: onPress }
-      }),
-    [onPress]
+  const onPress = useCallback(
+    (_: HandlerStateChangeEvent<Record<string, unknown>>) => {
+      childRef?.current?.focus?.()
+      if (isFocusable) set(focuses, ['current', 'focused'], privateId)
+      else blur()
+      if (isFunction(onFocus)) onFocus()
+    },
+    [isFocusable, onFocus]
   )
 
   return (
-    <View
-      {...props}
-      onStartShouldSetResponder={_onStartShouldSetResponderCapture}
-      {...responderHandler}
-    >
-      {React.cloneElement(children as any, { ref: refSetter })}
-    </View>
+    <TapGestureHandler onActivated={onPress}>
+      <View {...props}>
+        {React.cloneElement(children as any, { ref: refSetter })}
+      </View>
+    </TapGestureHandler>
   )
 }
 

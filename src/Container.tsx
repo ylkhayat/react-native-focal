@@ -1,7 +1,11 @@
-import React, { useCallback, useMemo } from 'react'
-import { View, ViewProps, GestureResponderEvent, Platform } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, ViewProps } from 'react-native'
 import isFunction from 'lodash.isfunction'
 import { blur } from './ref'
+import {
+  TapGestureHandler,
+  HandlerStateChangeEvent
+} from 'react-native-gesture-handler'
 
 type Props = ViewProps & {
   children: React.ReactNode
@@ -10,25 +14,17 @@ type Props = ViewProps & {
 
 const Container = ({ children, onPress, ...props }: Props) => {
   const onContainerPress = useCallback(
-    (_: GestureResponderEvent) => {
+    (_: HandlerStateChangeEvent<Record<string, unknown>>) => {
       blur()
       if (isFunction(onPress)) onPress()
     },
     [onPress]
   )
 
-  const responderHandler = useMemo(
-    () =>
-      Platform.select({
-        default: { onTouchStart: onContainerPress },
-        web: { onResponderRelease: onContainerPress }
-      }),
-    [onContainerPress]
-  )
   return (
-    <View {...props} {...responderHandler}>
-      {children}
-    </View>
+    <TapGestureHandler onActivated={onContainerPress}>
+      <View {...props}>{children}</View>
+    </TapGestureHandler>
   )
 }
 

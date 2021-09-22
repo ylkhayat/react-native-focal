@@ -1,5 +1,5 @@
 module.exports = {
   preset: 'react-native',
-  setupFiles: [],
-  transformIgnorePatterns: []
+  setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
+  transformIgnorePatterns: ['/node_modules/(?!native-base)/']
 }
