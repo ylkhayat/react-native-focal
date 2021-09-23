@@ -1,6 +1,6 @@
 {
   "name": "react-native-focal",
-  "version": "0.1.7",
+  "version": "0.1.8-alpha.1",
   "description": "Humble kit to professionally handle the focus/blur experience for controlled components.",
   "author": "yousseftarekkh",
   "license": "MIT",
