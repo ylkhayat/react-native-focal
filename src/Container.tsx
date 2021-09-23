@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Animated, View, ViewProps } from 'react-native'
 import isFunction from 'lodash.isfunction'
-import { blur } from './ref'
+import { handlers, blur } from './ref'
 import {
   TapGestureHandler,
   HandlerStateChangeEvent
