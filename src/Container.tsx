@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { View, ViewProps } from 'react-native'
+import { Animated, View, ViewProps } from 'react-native'
 import isFunction from 'lodash.isfunction'
-import { blur, getHandlers } from './ref'
+import { blur } from './ref'
 import {
   TapGestureHandler,
   HandlerStateChangeEvent
@@ -22,8 +22,8 @@ const Container = ({ children, onPress, ...props }: Props) => {
   )
 
   return (
-    <TapGestureHandler waitFor={getHandlers()} onActivated={onContainerPress}>
-      <View {...props}>{children}</View>
+    <TapGestureHandler waitFor={Object.values(handlers.current || {}) || []} onActivated={onContainerPress}>
+      <Animated.View {...props}>{children}</Animated.View>
     </TapGestureHandler>
   )
 }
