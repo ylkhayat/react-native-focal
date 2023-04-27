@@ -2,11 +2,11 @@
   "name": "react-native-focal",
   "version": "0.1.8-alpha.1",
   "description": "Humble kit to professionally handle the focus/blur experience for controlled components.",
-  "author": "yousseftarekkh",
+  "author": "ylkhayat",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yousseftarekkh/react-native-focal.git"
+    "url": "git+https://github.com/ylkhayat/react-native-focal.git"
   },
   "keywords": [
     "react-native",
