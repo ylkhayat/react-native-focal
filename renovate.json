@@ -1,8 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":automergeAll",
+    ":dependencyDashboard"
   ],
+  "schedule": [
+    "every weekend"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "rangeStrategy": "pin",
   "packageRules": [
     {
       "matchDepTypes": [
@@ -19,5 +28,9 @@
       ],
       "automerge": true
     }
-  ]
+  ],
+  "platformAutomerge": true,
+  "prConcurrentLimit": 10,
+  "rebaseWhen": "conflicted",
+  "configMigration": true
 }
