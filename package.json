@@ -71,7 +71,7 @@
     "metro-react-native-babel-preset": "0.66.2",
     "microbundle-crl": "0.13.11",
     "npm-run-all2": "5.0.2",
-    "prettier": "2.4.0",
+    "prettier": "2.8.8",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-test-renderer": "17.0.2",
