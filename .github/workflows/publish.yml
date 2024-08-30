@@ -14,16 +14,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.release.target_commitish }}
-      - name: Use Node.js 14
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '20.16.0'
           check-latest: true
           registry-url: https://registry.npmjs.org/
       - run: yarn install --frozen-lockfile
       - run: yarn test
-      - run: git config --global user.name "tacos"
-      - run: git config --global user.email "yousseftarek@live.com"
+      - run: git config --global user.name "ylkhayat" user.email "yousseftarek@live.com"
       - run: yarn version --new-version ${{ github.event.release.tag_name }}
       - run: yarn build
       - run: yarn publish

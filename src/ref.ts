@@ -57,9 +57,7 @@ const getFocusedId = (): string | null => {
 /**
  * Method responsible for retrieving the number of actual nodes in the focal object.
  */
-const getLength = () => {
-  return Object.keys((focuses.current as any) || {}).length
-}
+const getLength = () => Object.keys((focuses.current as any) || {}).length
 
 /**
  * Method responsible for retrieving a certain node within the focal object via index if valid.
