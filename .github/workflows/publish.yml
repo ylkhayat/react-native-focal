@@ -15,7 +15,7 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20.16.0'
           check-latest: true
