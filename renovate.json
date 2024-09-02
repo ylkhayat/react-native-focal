@@ -14,20 +14,20 @@
   "rangeStrategy": "pin",
   "packageRules": [
     {
-      "matchDepTypes": [
-        "devDependencies"
+      "matchUpdateTypes": [
+        "minor"
       ],
       "automerge": true
     },
     {
       "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
+        "major"
       ],
-      "automerge": true
+      "automerge": false
     }
+  ],
+  "assignees": [
+    "ylkhayat"
   ],
   "platformAutomerge": true,
   "prConcurrentLimit": 10,
