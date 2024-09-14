@@ -2,32 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
+    "config:semverAllMonthly",
     ":automergeAll",
-    ":dependencyDashboard"
+    ":pinOnlyDevDependencies"
   ],
   "schedule": [
     "every weekend"
   ],
   "labels": [
     "dependencies"
-  ],
-  "rangeStrategy": "pin",
-  "packageRules": [
-    {
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "automerge": true
-    },
-    {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false
-    }
-  ],
-  "assignees": [
-    "ylkhayat"
   ],
   "platformAutomerge": true,
   "prConcurrentLimit": 10,
