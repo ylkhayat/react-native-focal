@@ -7,7 +7,7 @@
     ":pinOnlyDevDependencies"
   ],
   "schedule": [
-    "every weekend"
+    "every month"
   ],
   "labels": [
     "dependencies"
